@@ -1,8 +1,9 @@
-import gql from 'graphql-tag';
+import {gql} from 'apollo-boost';
 class Gql{
     type:string;
-    constructor(){
-        
+    scheme:string;
+    constructor(scheme:string){
+        this.scheme = gql`${scheme}`;
     }
 
 }
