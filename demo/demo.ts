@@ -1,17 +1,19 @@
 import Cable from '../src/index';
 
 const cable = new Cable();
+// 新增clinet
 cable.addClient({
     github:{
-        uri:'https://zion.sankuai.com/tivan/v1/graphql'
+        uri:'https://api.github.com/graphql'
+    },
+    altizure:{
+        uri:'https://api.altizure.cn/graphql'
     }
 });
-
-cable.query(`query{
-    resources(pageNo:1,pageSize:10){
-      totalNum
-    }
+cable.query(`query {
+  utility {
+    sizeToGigaPixel(width: 4000, height: 3000, numImg: 100)
   }
-  `).then(res=>console.log(res)).catch((err)=>{
+}`,null,'altizure').then(res=>console.log(res)).catch((err)=>{
     console.log(err)
   });

@@ -1,9 +1,8 @@
-import {gql} from 'apollo-boost';
+import { gql } from 'apollo-boost';
 class Gql{
-    type:string;
-    scheme:string;
+    gql:any;
     constructor(scheme:string){
-        this.scheme = gql`${scheme}`;
+        this.gql = gql`${scheme}`;
     }
 
 }

@@ -15,7 +15,7 @@ class Cable {
     defaultClient: Client | null;
     // fetchOptions:{};
     // headers:{};
-    constructor(config: { clients: {} | null, defaultClient: string | null, option: {} | null } | null) {
+    constructor(config: { clients: {} | null, defaultClient: string | null, option: {} | null } | void) {
         const { clients = null, defaultClient = null } = config || {};
         this.clientQueue = clients || {};
         this.clients = {};
@@ -48,7 +48,7 @@ class Cable {
     /**
      * 查询语句
      */
-    query(scheme: string, client: string) {
+    query(scheme: string, variables:object,client: string) {
         const query = new Gql(scheme);
         let activeClient = this.defaultClient;
         if (client && this.clients[client]) {
@@ -58,7 +58,8 @@ class Cable {
             throw new CableError('no active client');
         }
         return activeClient.client.query({
-            query: query.scheme
+            query: query.gql,
+            variables
         }).then((res: {}) => {
             return res.data;
         });
@@ -66,7 +67,7 @@ class Cable {
     /**
      * 编辑语句
      */
-    mutations(scheme: string, client: string) {
+    mutations(scheme: string, variables:object,client: string) {
         const query = new Gql(scheme);
         let activeClient = this.defaultClient;
         if (client && this.clients[client]) {
@@ -75,8 +76,9 @@ class Cable {
         if (!activeClient) {
             throw new CableError('no active client');
         }
-        return activeClient.client.mutation({
-            query: query.scheme
+        return activeClient.client.mutate({
+            mutation: query.gql,
+            variables
         }).then((res: {}) => {
             return res.data;
         });

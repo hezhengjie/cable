@@ -1,6 +1,7 @@
 const path = require('path');
 const buble = require('rollup-plugin-buble'); 
 const typescript = require('rollup-plugin-typescript');
+const resolve = require( 'rollup-plugin-node-resolve');
 const babel = require('rollup-plugin-babel');
 const commonjs = require('rollup-plugin-commonjs');
 const resolveFile = function(filePath) {
@@ -16,19 +17,23 @@ module.exports = [
       name:'index'
     }, 
     plugins: [
-      commonjs(),
+      resolve({
+        jsnext: true,
+        main: true,
+        browser: true
+      }),
+      commonjs({ 
+        sourceMap: false,  // 非CommonJS模块将被忽略 
+        ignoreGlobal: false //如果为true，则此插件不会处理“global”的使用
+      }),
       typescript(),
       buble(),
       babel({
         "presets": [
-          ["env", {
-            "modules": false
-          }],
-        ],
-        "plugins": [
-          "transform-object-rest-spread"
-        ],
+          ["@babel/preset-env"]
+        ]
       }),
+      
     ],
   },
 ]

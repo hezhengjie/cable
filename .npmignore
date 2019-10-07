@@ -11,7 +11,7 @@ test
 CHANGELOG.md
 CHANGELOG.zh-CN.md
 package-lock.json
-rename.js
 TODO.md
 tsconfig.json
 tslint.json
+yarn.lock

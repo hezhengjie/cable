@@ -1,15 +1,20 @@
 import ApolloClient from 'apollo-boost';
-import _ from 'lodash';
 import CableError from './error';
 class Clinet {
     uri:string;
-    option:{};
+    option:{} = {request: async operation => {
+        operation.setContext({
+          fetchOptions: {
+            credentials: 'include'
+          }
+        });
+    }};
     client:{};
     constructor(option:{uri:string}){
         if(!option.uri){ throw new CableError('Client uri 为必填参数') }
         this.uri = option.uri;
-        this.option = option;
-        this.client = new ApolloClient(option);
+        this.option = Object.assign(this.option,option);
+        this.client = new ApolloClient(this.option);
     }
 
 }

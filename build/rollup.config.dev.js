@@ -2,6 +2,7 @@ process.env.NODE_ENV = 'development';
 
 const path = require('path');
 const serve = require('rollup-plugin-serve');
+const livereload = require('rollup-plugin-livereload');
 const configList = require('./rollup.config');
 
 const resolveFile = function(filePath) {
@@ -33,7 +34,8 @@ configList.map((config, index) => {
         serve({
           port: PORT,
           contentBase: [resolveFile(''),resolveFile('demo'), resolveFile('dist')]
-        })
+        }),
+        livereload()
       ]
     ]
   }
